@@ -142,7 +142,6 @@ int main()
 	cout << endl << year[iMin] << endl;
 	cout << endl << year[iMax] << endl;
 
-
 	int iMax2 = 0, iMin2 = 0;
 	for (int i = 0; i < DAYS; i++)
 	{
