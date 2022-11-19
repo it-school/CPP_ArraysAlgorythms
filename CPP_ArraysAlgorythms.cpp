@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <iomanip>
+#include <cmath>
 using namespace std;
-
 
 int main()
 {
@@ -172,7 +172,7 @@ int main()
 	cout << endl << "Total operations: " << n;
 	*/
 
-	// Без сортировки - обычный поиск минимума и максимума
+	// Реализация без сортировки - обычный поиск минимума и максимума (3 раза)
 
 	cout << endl << endl << "Пары температур для самых 3 холодных и самых тёплых дней года:" << endl;
 
