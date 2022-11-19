@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 	setlocale(LC_ALL, "ru");
-	cout << "Array algorythms: linear search, sorts, i.e." << endl;
+	cout << "Array algorythms: linear search, sorts, i.e." << endl << endl << "---------------------------------------------------------" << endl;
 	const int N = 20;
 	int array[N];
 
@@ -16,19 +16,30 @@ int main()
 		cout << setw(4) << array[i];
 	}
 
+
 	// линейный поиск (linear search)
-	int number = 5, position = -1;
+	int number = 5, position = -1, n = 0;
 	for (int i = 0; i < N; i++)
 	{
+		n++;
 		if (array[i] == number)
 		{
 			position = i;
 			break;  // добавляем для поиска только первого вхождения
 		}
 	}
-	cout << endl << "Position of number " << number << " is " << position << endl;
+	if (position >= 0) {
+		cout << endl << "Число " << number << " в массиве присутсвует ";
+		cout << endl << "Его индекс: " << position << endl;
+	}
+	else {
+		cout << endl << "Число " << number << " в массиве отсутсвует ";
+	}
+	cout << endl << "Кол-во выполненных итераций: " << n << endl << "---------------------------------------------------------" << endl;
+
 
 	// Поиск в массиве MIN и MAX значений и их индексов
+	n = 0;
 	int indexMin = 0, indexMax = 0;
 	for (int i = 1; i < N; i++)
 	{
@@ -40,10 +51,11 @@ int main()
 	}
 	cout << endl << "Минимальный элемент на ходится на позиции: " << indexMin << ", его значение: " << array[indexMin];
 	cout << endl << "Максимальный элемент на ходится на позиции: " << indexMax << ", его значение: " << array[indexMax] << endl;
+	cout << endl << "Кол-во выполненных итераций: " << n << endl << "---------------------------------------------------------" << endl;
 
 	// Сортировка поиском (выбором) минимального (selection sort)
 	int imin = 0, temp;
-
+	n = 0;
 	// N-1 * N/2 - количество операций
 	for (int j = 0; j < N - 1; j++)
 	{
@@ -53,20 +65,23 @@ int main()
 			{
 				imin = i;
 			}
+			n++;
 		}
 		// cout << endl << "Minimum is: array[" << imin << "] = " << array[imin] << endl;
 		temp = array[j];
 		array[j] = array[imin];
 		array[imin] = temp;
 		cout << endl;
-		for (size_t i = 0; i < N; i++)
+		for (size_t i = 0; i < N; i++)  // помежуточный вывод результатов после каждого прохода массива
 		{
 			cout << setw(4) << array[i];
 		}
 	}
+	cout << endl << "Кол-во выполненных итераций: " << n << endl << "---------------------------------------------------------" << endl;
+
 
 	// Пузырьковая сортировка (bubble sort)
-	int n = 0;
+	n = 0;
 	bool isOrdered = true;
 	for (size_t j = 0; j < N - 1; j++)
 	{
@@ -92,44 +107,51 @@ int main()
 	{
 		cout << setw(4) << array[i];
 	}
-	cout << endl << "Total operations: " << n;
+	cout << endl << "Кол-во выполненных итераций: " << n << endl << "---------------------------------------------------------" << endl;
+
 
 	// Двоичный (бинарный) поиск в отсортированном массиве 
-	int steps = ceil(log2(n));	// кол-во шагов для поиска
-	int middle = n / 2;			// середина для старта поиска
-	number = 555;				// искомое значение
-	position = -1;				// позиция найденного элемента или -1, если не найден
+	int steps = ceil(log2(N));				// кол-во шагов для поиска
+	int borderLeft = 0, borderRight = N - 1;// границы поиска
+	int middle = N / 2;						// середина между границами поиска
+	number = 42;							// искомое значение
+	position = -1;							// позиция найденного элемента или -1, если не найден
+	n = 0;
 
-	cout << endl << steps;
-	for (size_t i = 1; i <= n; i++)
+	cout << endl << "При бинарном поиске значения в массиве для поиска/проверки гарантированно хватит шагов: " << steps;
+	for (size_t i = 1; i <= steps; i++)
 	{
-		if (array[middle] == number)
+		n++;
+		if (number < array[middle])
 		{
-			number = middle;
-			break;
+			borderRight = middle;	// go left
 		}
-		else
-		{
-			if (array[middle] > number)
+		else {
+			if (number > array[middle])
 			{
-				middle = middle / 2; // go left
+				borderLeft = middle;	// go right
 			}
 			else
 			{
-				middle = middle + middle / 2; // go right
+				position = middle;
+				break;
 			}
-
-			// middle = array[middle] > value ? middle / 2 : middle + middle / 2;
 		}
+		middle = (borderRight + borderLeft) / 2;
 	}
-	cout << endl << "Индекс для значения " << number << " => " << position;
 
+	if (position >= 0) {
+		cout << endl << "Индекс для значения " << number << " => " << position;
+	}
+	else {
+		cout << endl << "Значение " << number << " в массиве НЕ обнаружено";
+	}
+	cout << endl << "Кол-во выполненных итераций: " << n << endl << "---------------------------------------------------------" << endl;
 
 
 	// Практический пример
 	n = 0;
-
-	cout << endl << endl << "Известны показания термометра за год. Найти 3 самых теплых и 3 самых холoдных дня в году:" << endl;
+	cout << endl << "Известны показания термометра за год. Найти 3 самых теплых и 3 самых холoдных дня в году:" << endl;
 	const int DAYS = 365;
 	int year[DAYS];
 
@@ -215,5 +237,5 @@ int main()
 	}
 	cout << endl << "3 минимальная температура года: " << year[iMin3];
 	cout << endl << "3 максимальная температура года: " << year[iMax3];
-	cout << endl << endl << "Total operations: " << n << endl;
+	cout << endl << endl << "Кол-во выполненных итераций: " << n << endl << "---------------------------------------------------------" << endl;
 }
